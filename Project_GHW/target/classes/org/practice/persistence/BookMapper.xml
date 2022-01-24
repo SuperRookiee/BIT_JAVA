@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.practice.persistence.BookMapper">
+	<select id="getList" resultType="org.practice.domain.BookVO">
+		select * from Book where bookid > 0
+	</select>
+	
+	<insert id="insert">
+		insert into Book(bookid, bookname, publisher, price)
+		values( #{bookid}, #{bookname}, #{publisher}, #{price})
+	</insert>
+	
+	<select id="read" resultType="org.practice.domain.BookVO">
+		select * from Book where bookid = #{bookid}
+	</select>
+	
+	<delete id="delete">
+		delete from Book where bookid = #{bookid}
+	</delete>
+	
+	<update id ="update">
+		update Book set bookname=#{bookname}, publisher=#{publisher}, updateDate=now() where bookid = #{bookid}
+	</update>
+	
+	<insert id="insertSelectKey">
+		insert into Book(bookid, bookname, publisher, price)
+		values( #{bookid}, #{bookname}, #{publisher}, #{price})
+		<selectKey resultType="int" keyProperty="bookid" order="AFTER">
+			SELECT LAST_INSERT_ID()		
+		</selectKey>
+	</insert>
+</mapper>
